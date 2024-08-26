@@ -1,0 +1,139 @@
+/* General styles for the application */
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.App {
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #f0f0f0;
+    font-size: 2.5em; /* Larger font size for the title */
+}
+
+h2 {
+    color: #d0d0d0;
+    font-size: 2em; /* Slightly larger font size for winner message */
+}
+
+h3 {
+    color: #f0f0f0;
+    font-size: 1.5em; /* Font size for section headings */
+    margin-bottom: 10px;
+}
+
+/* Board styles */
+.board {
+    display: inline-block;
+    border: 2px solid #1e90ff; /* Blue border for the board */
+    margin-bottom: 20px; /* Space between the board and the history */
+   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for a 3D effect */
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #1e90ff; /* Blue border for cells */
+    background-color: #2e2e2e; /* Darker background for cells */
+    color: #ffffff;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.cell:hover {
+    background-color: #444444; /* Slightly lighter background on hover */
+}
+
+.cell.occupied {
+    background-color: #3e3e3e; /* Slightly lighter background for occupied cells */
+}
+
+/* Button styles */
+.controls button {
+    background-color: #1e90ff; /* Blue background */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+   
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s, transform 0.2s; /* Smooth transition for background and transform */
+}
+
+.controls button:hover {
+    background-color: #4682b4; /* Darker blue on hover */
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+.controls button:active {
+    transform: scale(0.95); /* Slightly smaller on click */
+}
+
+/* History styles */
+.history {
+    position: absolute;
+    left: 10px; /* Slightly to the left of the board */
+    bottom: 10px; /* Positioned at the bottom of the screen */
+    max-width: 300px; /* Increased width for more content */
+    background-color: #333333; /* Dark background for history entries */
+    border: 1px solid #1e90ff; /* Blue border for history entries */
+    padding: 10px;
+    overflow-y: auto;
+   
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Shadow for a 3D effect */
+}
+
+.history div {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #444444; /* Slightly lighter background for each history entry */
+    color: #ffffff;
+    border-radius: 5px;
+    font-size: 0.9em; /* Smaller font size for history entries */
+}
+
+/* Message styles */
+.message {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #ff4500; /* Orange color for messages */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .board {
+        width: 100%;
+    }
+
+    .cell {
+        width: 40px;
+        height: 40px;
+        font-size: 1em;
+    }
+
+    .controls button {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+
+    .history {
+        max-width: 100%;
+        bottom: 5px;
+    }
+}
