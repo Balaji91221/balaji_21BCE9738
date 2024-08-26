@@ -10,7 +10,7 @@ app.use(cors());
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: process.env.frontend_url || 'http://localhost:3000', // Fallback to localhost if not set
+    origin: process.env.frontend_url, // Fallback to localhost if not set
     methods: ['GET', 'POST']
   }
 });

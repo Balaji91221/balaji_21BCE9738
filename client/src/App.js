@@ -14,7 +14,7 @@ const initialBoard = [
 const initialSetupA = ['A-P1', 'A-H1', 'A-H2', 'A-P2', 'A-P3'];
 const initialSetupB = ['B-P1', 'B-H1', 'B-H2', 'B-P2', 'B-P3'];
 
-const socket = io('http://localhost:4000'); // Update with your backend URL
+const socket = io('https://balaji-21-bce-9738-avmk.vercel.app'); // Update with your backend URL
 
 function App() {
   // Initialize board function
