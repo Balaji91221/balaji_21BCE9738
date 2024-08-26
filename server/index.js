@@ -8,7 +8,7 @@ const app = express();
 
 // Configure CORS to allow multiple origins
 const allowedOrigins = [
-  'http://localhost:3000', // Your development URL
+  
   'https://balaji-21-bce-9738.vercel.app', // Production URL
   // Add any other allowed origins here
 ];
