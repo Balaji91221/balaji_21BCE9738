@@ -5,13 +5,27 @@ const cors = require('cors');
 require('dotenv').config(); // Load environment variables
 
 const app = express();
-app.use(cors());
+
+// Configure CORS to allow multiple origins
+const allowedOrigins = [
+  'http://localhost:3000', // Your development URL
+  'https://balaji-21-bce-9738.vercel.app', // Production URL
+  // Add any other allowed origins here
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
 
 const server = createServer(app);
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.frontend_url, // Fallback to localhost if not set
-    methods: ['GET', 'POST']
+    origin: allowedOrigins,
+    methods: ['GET', 'POST'],
+    credentials: true
   }
 });
 
@@ -28,9 +42,7 @@ io.on('connection', (socket) => {
   });
 });
 
-app.get('/health', (req, res) => {
-  res.status(200).send('Socket.IO server is running');
-});
+
 
 server.listen(process.env.PORT || 4000, () => {
   console.log(`Listening on *:${process.env.PORT || 4000}`);
