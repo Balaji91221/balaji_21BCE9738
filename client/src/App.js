@@ -14,7 +14,7 @@ const initialBoard = [
 const initialSetupA = ['A-P1', 'A-H1', 'A-H2', 'A-P2', 'A-P3'];
 const initialSetupB = ['B-P1', 'B-H1', 'B-H2', 'B-P2', 'B-P3'];
 
-const socket = io('https://balaji-21-bce-9738-avmk.vercel.app', {
+const socket = io('https://balaji-21-bce-9738-avmk.vercel.app/', {
   withCredentials: true,
 });
 function App() {

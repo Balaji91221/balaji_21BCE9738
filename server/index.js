@@ -43,7 +43,9 @@ io.on('connection', (socket) => {
 });
 
 
-
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 server.listen(process.env.PORT || 4000, () => {
   console.log(`Listening on *:${process.env.PORT || 4000}`);
 });
