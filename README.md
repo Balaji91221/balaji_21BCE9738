@@ -1,49 +1,68 @@
-# Turn-Based Chess-like Game with Websocket Communication
+# Turn-Based Strategy Game
 
-## Overview
-This repository features a turn-based chess-like game implemented with a server-client architecture using Websockets for real-time communication. The game is played on a 5x5 grid with three types of characters: Pawns, Hero1, and Hero2, each having distinct movement and attack patterns. The goal is to eliminate all of the opponent's characters.
+**A 5×5 chess-like game prototype built with React and Socket.IO.**
 
-### Events Handled
-1. **Game Initialization**: Sets up the game board and starts a new game.
-2. **Player Move**: Processes player moves and updates the game state.
-3. **Game State Update**: Broadcasts the updated game state to all clients.
-4. **Invalid Move Notification**: Alerts the player if their move is invalid.
-5. **Game Over Notification**: Announces the winner and the end of the game.
+This project explores board-state updates, piece-specific movement, and browser-to-server events. It is useful for learning where game rules, local UI state, and shared network state meet.
 
-## Implementation Details
+## Gameplay
 
-### Server Implementation
-- **Game Logic**: Handled using TypeScript in the `server` directory, including move processing and game state management.
-- **Express Server**: Manages HTTP requests and serves the client application.
-- **Socket.io**: Facilitates real-time communication between server and clients.
+Each side starts with three pawns, Hero1, and Hero2. Select a piece belonging to the current player, then choose one of its available moves.
 
-### Web Client Implementation
-- **React**: Builds the user interface in the `client` directory.
-- **TypeScript**: Ensures type safety and robustness in both client and server code.
-- **Tailwind CSS**: Utilizes a utility-first CSS framework for styling.
+| Piece | Implemented movement |
+|---|---|
+| Pawn | One square left, right, forward, or backward |
+| Hero1 | Two squares horizontally or vertically |
+| Hero2 | Two squares diagonally |
 
-### Handling Edge Cases
-- **Simultaneous Moves**: Ensured by allowing only one player to move at a time.
-- **Disconnections**: Clients can reconnect, and their previous state is restored.
-- **Invalid Actions**: Moves are validated on both client and server sides to prevent illegal actions.
+The client checks board bounds and destination occupancy, records moves, handles captures, and detects when the opposing side has no pieces remaining.
 
-## Bonus Challenges
-- [ ] **Hero3**: Introduce a new character type with complex movement patterns.
-- [ ] **Dynamic Team Composition**: Allow players to select their team composition at the start.
-- [x] **Spectator Mode**: Implemented for observing ongoing games.
-- [ ] **Chat Feature**: Add for player communication.
-- [ ] **AI Opponent**: Basic AI for single-player mode.
-- [ ] **Replay System**: Enable players to review past games.
+## Architecture
 
-## Code Quality
+```mermaid
+flowchart LR
+  UI[React board and controls] --> Rules[Client-side move logic]
+  Rules --> Local[Local board and history]
+  Rules -->|move event| Server[Express and Socket.IO relay]
+  Server -->|updateBoard and message| Clients[Connected clients]
+```
 
-### Single Responsibility Principle
-Each function and module adheres to the Single Responsibility Principle:
-- **Services**: Core game mechanics and state management are separated from request handling.
-- **Utils**: Helper functions are used across modules to avoid duplication.
+The server relays submitted board updates. It does not validate moves or own an authoritative game state. Turn, history, and winner state remain local to each client, so independent browser sessions can diverge.
 
-### Server-Side Error Handling
-- **Error Propagation**: Functions return error values alongside results for explicit handling.
-- **Detailed Logging**: Errors are logged with detailed context and stack traces.
-- **Validation**: Input is validated at the controller level to prevent invalid data.
+## Run locally
 
+Download and extract the repository. Before running both parts:
+
+1. Point the `io(...)` URL in `client/src/App.js` to your local server, normally `http://localhost:4000`.
+2. Add your React development origin, normally `http://localhost:3000`, to `allowedOrigins` in `server/index.js`.
+
+Start the server:
+
+```bash
+cd server
+npm install
+npm start
+```
+
+In a second terminal, from the repository root:
+
+```bash
+cd client
+npm install
+npm start
+```
+
+The server uses `PORT` if supplied and otherwise listens on port 4000. Client and server URLs are currently configured directly in source.
+
+## Try an interaction
+
+Open the client, select an A-side pawn, and choose **F**. The local board advances the pawn and records the move. A connected client receives the updated board and message, but additional state synchronization is needed for a complete multiplayer game.
+
+## Repository guide
+
+- `client/src/App.js`: board setup, movement rules, move history, and Socket.IO client.
+- `client/src/App.css`: board presentation.
+- `server/index.js`: HTTP server, CORS configuration, and event relay.
+
+## Current scope and contributions
+
+The code is JavaScript. Persistent sessions, server-side rule enforcement, reconnect restoration, separate game rooms, and a dedicated spectator role are not implemented. Contributions should start with authoritative state and complete turn synchronization, then document how two browser clients behave.
